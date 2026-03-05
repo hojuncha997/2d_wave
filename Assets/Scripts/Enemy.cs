@@ -25,6 +25,12 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public void Die()
     {
+        // 점수 추가 (한 마리당 100점)
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AddScore(100);
+        }
+
         // 추후 여기에 폭발 이펙트나 사운드 추가 가능
         Destroy(gameObject);
     }
