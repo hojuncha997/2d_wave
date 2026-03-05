@@ -29,6 +29,12 @@ public class EnemySpawner : MonoBehaviour
     {
         if (_mainCam == null) return;
 
+        // 게임 오버 상태인 경우 적 소환 중단
+        if (GameManager.Instance != null && GameManager.Instance.IsGameOver)
+        {
+            return;
+        }
+
         _timer += Time.deltaTime;
         if (_timer >= _spawnInterval)
         {
