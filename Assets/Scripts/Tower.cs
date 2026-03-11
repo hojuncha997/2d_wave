@@ -53,7 +53,12 @@ public class Tower : MonoBehaviour
 
     private void HandleFiring()
     {
-        if (_target == null) return;
+        if (_target == null) 
+        {
+            // 타겟이 없을 때는 타이머를 '발사 준비 완료' 상태로 유지
+            _fireTimer = 1f / _fireRate;
+            return;
+        }
 
         _fireTimer += Time.deltaTime;
         if (_fireTimer >= 1f / _fireRate)
@@ -65,14 +70,17 @@ public class Tower : MonoBehaviour
 
     private void Shoot()
     {
-        if (_bulletPrefab == null || _firePoint == null) return;
+        if (_bulletPrefab == null || _firePoint == null || _target == null) return;
 
-        // 총알 생성 및 발사 (타겟 방향으로 회전시키거나 단순히 위로 쏘게 할 수 있음)
-        // 여기서는 기존 Bullet 로직(위로 이동)을 활용하기 위해 위쪽으로 생성
+        // 총알 생성
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
-        
-        // 만약 총알이 타겟을 향해 날아가게 하고 싶다면 여기서 방향을 설정할 수 있습니다.
-        // 현재 Bullet.cs는 단순히 위로 올라가므로, 일단은 기본 설정을 유지합니다.
+
+        // 생성된 총알의 Bullet 컴포넌트를 가져와서 타겟 설정
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        if (bullet != null)
+        {
+            bullet.SetTarget(_target);
+        }
     }
 
     // 에디터에서 사거리를 시각적으로 확인하기 위한 기능
