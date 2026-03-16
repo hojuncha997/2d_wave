@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   WaveNumber: 1
   Batches:
-  - EnemyPrefab: {fileID: 5631120544058266564, guid: 6d0ef2562bf06414ea224d9509a8a04e, type: 3}
-    Count: 5
+  - DelayBeforeBatch: 0
+    EnemyPrefab: {fileID: 5631120544058266564, guid: 6d0ef2562bf06414ea224d9509a8a04e, type: 3}
+    Count: 10
+    SpawnInterval: 1
+  - DelayBeforeBatch: 1
+    EnemyPrefab: {fileID: 5631120544058266564, guid: a8ad56deb46c9964fa0996fac76be035, type: 3}
+    Count: 1
     SpawnInterval: 1
   WaitTimeAfterWave: 5
