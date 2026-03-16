@@ -25,7 +25,7 @@ public class Tower : MonoBehaviour
     /// </summary>
     private void UpdateTarget()
     {
-        // 모든 적을 찾음 (성능을 위해 추후 레이어 마스크나 오버랩 서클로 최적화 가능)
+        // 모든 적을 찾음
         Enemy[] enemies = Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         float shortestDistance = Mathf.Infinity;
         Transform nearestEnemy = null;
@@ -55,7 +55,6 @@ public class Tower : MonoBehaviour
     {
         if (_target == null) 
         {
-            // 타겟이 없을 때는 타이머를 '발사 준비 완료' 상태로 유지
             _fireTimer = 1f / _fireRate;
             return;
         }
@@ -75,15 +74,23 @@ public class Tower : MonoBehaviour
         // 총알 생성
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
 
-        // 생성된 총알의 Bullet 컴포넌트를 가져와서 타겟 설정
+        // 1. 일반 총알(Bullet)인 경우 타겟 설정
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
             bullet.SetTarget(_target);
+            return;
+        }
+
+        // 2. 폭발형 총알(ExplosiveBullet)인 경우 타겟 설정
+        ExplosiveBullet expBullet = bulletObj.GetComponent<ExplosiveBullet>();
+        if (expBullet != null)
+        {
+            expBullet.SetTarget(_target);
+            return;
         }
     }
 
-    // 에디터에서 사거리를 시각적으로 확인하기 위한 기능
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
