@@ -11,11 +11,13 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private TextMeshProUGUI _goldText; // 추가: 골드 UI
     [SerializeField] private GameObject _gameOverUI;
     [SerializeField] private TextMeshProUGUI _finalScoreText;
 
     public bool IsGameOver { get; private set; } = false;
     public int Score { get; private set; } = 0;
+    public int Gold { get; private set; } = 100; // 추가: 초기 자금 100G
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     {
         // 게임 시작 시 UI 초기화
         UpdateScoreUI();
+        UpdateGoldUI(); // 추가: 초기 골드 UI 업데이트
         if (_gameOverUI != null) _gameOverUI.SetActive(false);
     }
 
@@ -48,11 +51,47 @@ public class GameManager : MonoBehaviour
         Debug.Log($"현재 점수: {Score}");
     }
 
+    /// <summary>
+    /// 골드를 추가하고 UI를 업데이트합니다.
+    /// </summary>
+    public void AddGold(int amount)
+    {
+        if (IsGameOver) return;
+
+        Gold += amount;
+        UpdateGoldUI();
+        Debug.Log($"골드 획득! 현재 골드: {Gold}");
+    }
+
+    /// <summary>
+    /// 골드를 소비합니다. 충분한 골드가 있으면 true를 반환하고 차감합니다.
+    /// </summary>
+    public bool UseGold(int amount)
+    {
+        if (Gold >= amount)
+        {
+            Gold -= amount;
+            UpdateGoldUI();
+            return true;
+        }
+        
+        Debug.LogWarning($"골드가 부족합니다! (필요: {amount}, 보유: {Gold})");
+        return false;
+    }
+
     private void UpdateScoreUI()
     {
         if (_scoreText != null)
         {
             _scoreText.text = $"Score: {Score}";
+        }
+    }
+
+    private void UpdateGoldUI()
+    {
+        if (_goldText != null)
+        {
+            _goldText.text = $"Gold: {Gold}G";
         }
     }
 
