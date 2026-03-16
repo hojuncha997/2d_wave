@@ -5,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private int _damage = 1;
     [SerializeField] private float _speed = 15f;
     [SerializeField] private float _lifeTime = 3f;
     [Tooltip("타겟이 사라졌을 때 총알을 즉시 파괴할지 여부 (유도탄 등에 활용 가능)")]
@@ -57,7 +58,7 @@ public class Bullet : MonoBehaviour
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.Die();
+                enemy.TakeDamage(_damage);
             }
 
             // 명중 후 자신 파괴
