@@ -107,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   _speed: 30
   _lifeTime: 2
+  _destroyOnTargetLost: 0
 --- !u!61 &-4453277637851320973
 BoxCollider2D:
   m_ObjectHideFlags: 0
