@@ -1671,6 +1671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveManager
   _waves:
   - {fileID: 11400000, guid: d9f5c5e05361ee741b3bfec8ecd9e885, type: 2}
+  - {fileID: 11400000, guid: 9c8babda0a577bc4c8a653caf34c95c0, type: 2}
   _spawner: {fileID: 0}
   _waveText: {fileID: 305617467}
   _announcementText: {fileID: 514034535}
@@ -2099,7 +2100,7 @@ SceneRoots:
   - {fileID: 1450022276}
   - {fileID: 238343884}
   - {fileID: 1112057550}
+  - {fileID: 1832063753}
   - {fileID: 1048942037}
   - {fileID: 1865239804}
   - {fileID: 955331989}
-  - {fileID: 1832063753}
