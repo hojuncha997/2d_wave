@@ -7,6 +7,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class EnemyBatch
 {
+    [Tooltip("이 그룹 소환을 시작하기 전 대기 시간 (초)")]
+    public float DelayBeforeBatch = 0f;
+
     [Tooltip("소환할 적의 프리팹")]
     public GameObject EnemyPrefab;
     

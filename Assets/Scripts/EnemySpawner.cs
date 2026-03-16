@@ -84,6 +84,12 @@ public class EnemySpawner : MonoBehaviour
 
         foreach (var batch in waveData.Batches)
         {
+            // 배치 시작 전 대기 시간 적용
+            if (batch.DelayBeforeBatch > 0)
+            {
+                yield return new WaitForSeconds(batch.DelayBeforeBatch);
+            }
+
             for (int i = 0; i < batch.Count; i++)
             {
                 // 게임 오버 시 소환 중단
