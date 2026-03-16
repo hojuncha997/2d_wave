@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d2edb4402aabf5468c10da57064f71b, type: 3}
   m_Name: wave_02_Boss
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
-  WaveNumber: 1
+  WaveNumber: 2
+  WaveName: Giant Slayer
   Batches:
-  - EnemyPrefab: {fileID: 5631120544058266564, guid: a8ad56deb46c9964fa0996fac76be035, type: 3}
+  - DelayBeforeBatch: 0
+    EnemyPrefab: {fileID: 5631120544058266564, guid: a8ad56deb46c9964fa0996fac76be035, type: 3}
     Count: 1
     SpawnInterval: 1
   WaitTimeAfterWave: 5

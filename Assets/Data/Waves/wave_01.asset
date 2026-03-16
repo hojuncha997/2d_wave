@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: wave_01
   m_EditorClassIdentifier: Assembly-CSharp::WaveData
   WaveNumber: 1
+  WaveName: First Contact
   Batches:
   - DelayBeforeBatch: 0
     EnemyPrefab: {fileID: 5631120544058266564, guid: 6d0ef2562bf06414ea224d9509a8a04e, type: 3}

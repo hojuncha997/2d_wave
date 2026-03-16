@@ -16,11 +16,11 @@ public class WaveManager : MonoBehaviour
     
     [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI _waveText;
-    [SerializeField] private TextMeshProUGUI _announcementText; // "Wave 1 Start!" 등을 표시할 큰 텍스트
+    [SerializeField] private TextMeshProUGUI _announcementText;
 
     private int _currentWaveIndex = 0;
     private bool _isWaveInProgress = false;
-    private int _remainingEnemiesInWave = 0;
+    private bool _isReadyForNextWave = false;
 
     private void Awake()
     {
@@ -28,85 +28,92 @@ public class WaveManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    private void Update()
+    {
+        // 웨이브가 진행 중이 아닐 때만 입력을 받아 다음 웨이브를 시작함
+        if (!_isWaveInProgress && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+        {
+            _isReadyForNextWave = true;
+        }
+    }
+
     private void Start()
     {
         if (_spawner == null) _spawner = FindFirstObjectByType<EnemySpawner>();
         
-        Debug.Log($"WaveManager 시작: 등록된 웨이브 수 = {_waves.Count}");
-        
         if (_waves.Count == 0)
         {
-            Debug.LogWarning("WaveManager: 등록된 웨이브 데이터가 없습니다! 인스펙터의 Waves 리스트를 확인하세요.");
+            Debug.LogWarning("WaveManager: 등록된 웨이브 데이터가 없습니다!");
         }
 
-        // 첫 번째 웨이브 시작
         StartCoroutine(GameLoopRoutine());
     }
 
-    /// <summary>
-    /// 전체 게임 루프를 관리하는 코루틴입니다.
-    /// </summary>
     private IEnumerator GameLoopRoutine()
     {
-        yield return new WaitForSeconds(1f); // 시작 전 잠시 대기
+        yield return new WaitForSeconds(1.5f);
 
         while (_currentWaveIndex < _waves.Count)
         {
-            yield return StartCoroutine(PlayWave(_waves[_currentWaveIndex]));
+            WaveData currentWave = _waves[_currentWaveIndex];
+            _isReadyForNextWave = false;
+
+            // 준비 메시지 설정
+            string prepareMessage = (_currentWaveIndex == 0) 
+                ? $"<size=40>{currentWave.WaveName}</size>\nClick or Space to START!"
+                : $"<color=green>WAVE CLEAR!</color>\nUpgrade Towers and Start \n<size=35>{currentWave.WaveName}</size>";
+
+            yield return ShowAnnouncement(prepareMessage, 0f);
+            
+            // 사용자가 클릭할 때까지 무한 대기
+            yield return new WaitUntil(() => _isReadyForNextWave);
+
+            // 실제 웨이브 실행 및 종료까지 대기
+            yield return StartCoroutine(PlayWave(currentWave));
             
             _currentWaveIndex++;
-            
-            if (_currentWaveIndex < _waves.Count)
-            {
-                // 다음 웨이브 전 대기 (Intermission)
-                float waitTime = _waves[_currentWaveIndex - 1].WaitTimeAfterWave;
-                yield return ShowAnnouncement($"Wave Clear! Next wave in {waitTime}s", waitTime);
-            }
         }
 
-        yield return ShowAnnouncement("All Waves Cleared! Victory!", 5f);
-        // 여기서 승리 연출이나 게임 종료 로직 추가 가능
+        yield return ShowAnnouncement("<color=yellow>★ MISSION COMPLETE ★</color>\nBase Defended!", 5f);
     }
 
-    /// <summary>
-    /// 단일 웨이브를 실행하고 종료될 때까지 대기합니다.
-    /// </summary>
     private IEnumerator PlayWave(WaveData data)
     {
         _isWaveInProgress = true;
-        UpdateWaveUI(data.WaveNumber);
-        
-        yield return ShowAnnouncement($"Wave {data.WaveNumber} Start!", 2f);
+        UpdateWaveUI(_currentWaveIndex + 1);
 
-        // 스포너에게 소환 명령
+        // 웨이브 시작 문구
+        string startMsg = (data.WaveName.Contains("Boss")) 
+            ? $"<color=red>WARNING: {data.WaveName}!</color>" 
+            : $"NOW START: {data.WaveName} (Wave {_currentWaveIndex + 1})";
+            
+        yield return ShowAnnouncement(startMsg, 1.5f);
+
         if (_spawner != null)
         {
             _spawner.StartWave(data);
         }
         else
         {
-            Debug.LogError("WaveManager: EnemySpawner가 연결되지 않았습니다!");
+            Debug.LogError("WaveManager: Spawner missing!");
+            _isWaveInProgress = false;
             yield break;
         }
 
-        // 소환이 시작될 때까지 한 프레임 대기
+        // 소환 시작 대기
         yield return null;
 
-        // 모든 적이 소환 완료되고, 화면의 모든 적이 처치될 때까지 대기
+        // 모든 적이 처치될 때까지 대기
         yield return new WaitUntil(() => IsWaveCleared());
 
-        Debug.Log($"웨이브 {data.WaveNumber} 클리어!");
+        Debug.Log($"Wave {_currentWaveIndex + 1} Clear!");
         _isWaveInProgress = false;
     }
 
     private bool IsWaveCleared()
     {
         if (GameManager.Instance != null && GameManager.Instance.IsGameOver) return true;
-
-        // 1. 아직 소환 중이라면 클리어 아님
         if (_spawner != null && _spawner.IsSpawning) return false;
-
-        // 2. 소환이 끝났고, 화면에 적이 하나도 없는지 체크
         return GameObject.FindGameObjectsWithTag("Enemy").Length == 0;
     }
 
@@ -122,13 +129,17 @@ public class WaveManager : MonoBehaviour
         {
             _announcementText.text = message;
             _announcementText.gameObject.SetActive(true);
-            yield return new WaitForSeconds(duration);
-            _announcementText.gameObject.SetActive(false);
+            
+            if (duration > 0f)
+            {
+                yield return new WaitForSeconds(duration);
+                _announcementText.gameObject.SetActive(false);
+            }
         }
         else
         {
             Debug.Log($"[Announcement] {message}");
-            yield return new WaitForSeconds(duration);
+            if (duration > 0f) yield return new WaitForSeconds(duration);
         }
     }
 }

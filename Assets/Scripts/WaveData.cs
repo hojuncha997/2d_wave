@@ -28,6 +28,7 @@ public class WaveData : ScriptableObject
 {
     [Header("Wave Info")]
     public int WaveNumber;
+    public string WaveName = "Normal Wave";
     
     [Header("Spawn Config")]
     [Tooltip("이 웨이브에서 순차적으로 소환할 적 배치 리스트")]
