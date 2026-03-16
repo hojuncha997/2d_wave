@@ -5,12 +5,17 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
+    [Header("Health Settings")]
+    [SerializeField] private int _maxHp = 1;
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private int _goldReward = 10; // 추가: 적 처치 시 골드 보상
+    [SerializeField] private int _goldReward = 10;
     [SerializeField] private float _lifeTime = 10f;
+
+    private int _currentHp;
 
     private void Start()
     {
+        _currentHp = _maxHp;
         Destroy(gameObject, _lifeTime);
     }
 
@@ -20,14 +25,28 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// 외부에서 적이 파괴될 때 호출되는 메서드 (예: 총알에 맞았을 때)
+    /// 적에게 데미지를 입힙니다. 체력이 0 이하가 되면 사망합니다.
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        _currentHp -= damage;
+        Debug.Log($"{gameObject.name} 피격! 남은 체력: {_currentHp}/{_maxHp}");
+
+        if (_currentHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    /// <summary>
+    /// 적이 사망할 때 호출되는 메서드입니다.
     /// </summary>
     public void Die()
     {
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddScore(100);
-            GameManager.Instance.AddGold(_goldReward); // 추가: 골드 보상 지급
+            GameManager.Instance.AddGold(_goldReward);
         }
 
         Destroy(gameObject);

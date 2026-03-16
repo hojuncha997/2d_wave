@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d2edb4402aabf5468c10da57064f71b, type: 3}
+  m_Name: wave_01
+  m_EditorClassIdentifier: Assembly-CSharp::WaveData
+  WaveNumber: 1
+  WaveName: First Contact
+  Batches:
+  - DelayBeforeBatch: 0
+    EnemyPrefab: {fileID: 5631120544058266564, guid: 6d0ef2562bf06414ea224d9509a8a04e, type: 3}
+    Count: 10
+    SpawnInterval: 1
+  - DelayBeforeBatch: 1
+    EnemyPrefab: {fileID: 5631120544058266564, guid: a8ad56deb46c9964fa0996fac76be035, type: 3}
+    Count: 1
+    SpawnInterval: 1
+  WaitTimeAfterWave: 5
