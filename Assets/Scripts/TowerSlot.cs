@@ -25,14 +25,28 @@ public class TowerSlot : MonoBehaviour
     /// </summary>
     private void OnMouseDown()
     {
-        // 이미 타워가 있거나 게임 오버라면 무시
-        if (_isOccupied || (GameManager.Instance != null && GameManager.Instance.IsGameOver)) return;
+        if (GameManager.Instance != null && GameManager.Instance.IsGameOver) return;
 
-        // 골드 체크 및 소비
-        if (GameManager.Instance != null && GameManager.Instance.UseGold(_towerPrice))
+        if (!_isOccupied)
         {
-            DeployTower(_currentTowerPrefab);
-            Debug.Log($"타워 구매 완료! 소비된 골드: {_towerPrice}");
+            // 타워 설치 로직
+            if (GameManager.Instance != null && GameManager.Instance.UseGold(_towerPrice))
+            {
+                DeployTower(_currentTowerPrefab);
+                Debug.Log($"타워 구매 완료! 소비된 골드: {_towerPrice}");
+            }
+        }
+        else if (_spawnedTower != null)
+        {
+            // 타워 업그레이드 로직
+            Tower tower = _spawnedTower.GetComponent<Tower>();
+            if (tower != null)
+            {
+                if (GameManager.Instance != null && GameManager.Instance.UseGold(tower.UpgradeCost))
+                {
+                    tower.Upgrade();
+                }
+            }
         }
     }
 

@@ -28,6 +28,14 @@ public class Bullet : MonoBehaviour
         _target = target;
     }
 
+    /// <summary>
+    /// 총알의 데미지를 설정합니다.
+    /// </summary>
+    public void SetDamage(int damage)
+    {
+        _damage = damage;
+    }
+
     private void Update()
     {
         // 타겟이 살아있다면 방향 갱신 및 회전 업데이트

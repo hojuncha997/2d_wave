@@ -5,14 +5,39 @@ using UnityEngine;
 /// </summary>
 public class Tower : MonoBehaviour
 {
-    [Header("Tower Settings")]
+    [Header("Tower Stats")]
+    [SerializeField] private int _damage = 1;
     [SerializeField] private float _fireRate = 1.0f; // 초당 발사 횟수
     [SerializeField] private float _range = 5.0f;    // 사거리
+    
+    [Header("Upgrade Settings")]
+    [SerializeField] private int _level = 1;
+    [SerializeField] private int _upgradeCost = 75;
+    [SerializeField] private float _upgradeMultiplier = 1.2f; // 업그레이드 시 능력치 상승 배율
+
+    [Header("References")]
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _firePoint;   // 총알이 발사되는 위치
 
+    public int UpgradeCost => _upgradeCost;
+    public int Level => _level;
+
     private float _fireTimer;
     private Transform _target;
+
+    /// <summary>
+    /// 타워의 레벨을 올리고 능력치를 강화합니다.
+    /// </summary>
+    public void Upgrade()
+    {
+        _level++;
+        _damage = Mathf.RoundToInt(_damage * _upgradeMultiplier);
+        _range *= 1.1f;
+        _fireRate *= 1.1f;
+        _upgradeCost = Mathf.RoundToInt(_upgradeCost * 1.5f);
+        
+        Debug.Log($"타워 업그레이드 완료! Level: {_level}, Damage: {_damage}, Range: {_range:F1}");
+    }
 
     private void Update()
     {
@@ -75,11 +100,12 @@ public class Tower : MonoBehaviour
         // 총알 생성
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, Quaternion.identity);
 
-        // 생성된 총알의 Bullet 컴포넌트를 가져와서 타겟 설정
+        // 생성된 총알의 Bullet 컴포넌트를 가져와서 타겟 및 데미지 설정
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
             bullet.SetTarget(_target);
+            bullet.SetDamage(_damage); // 타워의 현재 데미지 적용
         }
     }
 
