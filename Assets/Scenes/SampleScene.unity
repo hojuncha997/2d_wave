@@ -994,9 +994,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2107724974}
+  - {fileID: 1122817513}
   - {fileID: 1507130426}
   - {fileID: 1775820514}
   - {fileID: 1934488263}
+  - {fileID: 1618505321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1048942033
@@ -1153,6 +1155,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1122817512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122817513}
+  - component: {fileID: 1122817514}
+  m_Layer: 0
+  m_Name: Slot1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122817513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122817512}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 955331989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122817514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122817512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f03943cb24294389ac2895335dbd7d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
+  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d7513fd3914904b7382632874a4d343a, type: 3}
+  _towerPrice: 50
+  _isOccupied: 0
 --- !u!1 &1450022271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,7 +1606,7 @@ GameObject:
   - component: {fileID: 1507130426}
   - component: {fileID: 1507130427}
   m_Layer: 0
-  m_Name: Slot1
+  m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1572,7 +1621,7 @@ Transform:
   m_GameObject: {fileID: 1507130425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -1.16, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1585,6 +1634,53 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1507130425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f03943cb24294389ac2895335dbd7d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
+  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d15b765a51e756c4392ede95f9f8f10b, type: 3}
+  _towerPrice: 50
+  _isOccupied: 0
+--- !u!1 &1618505320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1618505321}
+  - component: {fileID: 1618505322}
+  m_Layer: 0
+  m_Name: Slot5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1618505321
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618505320}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 955331989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1618505322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618505320}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f03943cb24294389ac2895335dbd7d2, type: 3}
@@ -1604,7 +1700,7 @@ GameObject:
   - component: {fileID: 1775820514}
   - component: {fileID: 1775820515}
   m_Layer: 0
-  m_Name: Slot2
+  m_Name: Slot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1637,7 +1733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f03943cb24294389ac2895335dbd7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
-  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d7513fd3914904b7382632874a4d343a, type: 3}
+  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d15b765a51e756c4392ede95f9f8f10b, type: 3}
   _towerPrice: 50
   _isOccupied: 0
 --- !u!1 &1832063751
@@ -1780,7 +1876,7 @@ GameObject:
   - component: {fileID: 1934488263}
   - component: {fileID: 1934488264}
   m_Layer: 0
-  m_Name: Slot3
+  m_Name: Slot4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1795,7 +1891,7 @@ Transform:
   m_GameObject: {fileID: 1934488262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1.14, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1813,7 +1909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f03943cb24294389ac2895335dbd7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerSlot
-  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d7513fd3914904b7382632874a4d343a, type: 3}
+  _currentTowerPrefab: {fileID: 6525489558700101762, guid: d15b765a51e756c4392ede95f9f8f10b, type: 3}
   _towerPrice: 50
   _isOccupied: 0
 --- !u!1 &2056301257

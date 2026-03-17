@@ -96,7 +96,8 @@ public class EnemySpawner : MonoBehaviour
                 if (GameManager.Instance != null && GameManager.Instance.IsGameOver)
                     yield break;
 
-                SpawnEnemyPrefab(batch.EnemyPrefab);
+                // 배치에서 정의한 SpawnWidth를 사용하여 소환
+                SpawnEnemyAtRandomX(batch.EnemyPrefab, batch.SpawnWidth);
                 yield return new WaitForSeconds(batch.SpawnInterval);
             }
         }
@@ -105,26 +106,29 @@ public class EnemySpawner : MonoBehaviour
         _currentSpawnCoroutine = null;
     }
 
+    /// <summary>
+    /// 지정된 범위를 내에서 적을 랜덤하게 소환합니다.
+    /// </summary>
+    private void SpawnEnemyAtRandomX(GameObject prefab, float width)
+    {
+        if (prefab == null) return;
+
+        // 화면 중앙(0)을 기준으로 지정된 width 범위 내에서 랜덤 X 좌표 계산
+        float halfWidth = width / 2f;
+        float randomX = Random.Range(-halfWidth, halfWidth);
+        Vector3 spawnPos = new Vector3(randomX, 6f, 0f);
+
+        Instantiate(prefab, spawnPos, Quaternion.identity);
+    }
+
     private void SpawnBatch()
     {
         int spawnCount = _initialEnemiesPerSpawn + Mathf.FloorToInt(_gameTime / _batchIncreaseInterval);
         
         for (int i = 0; i < spawnCount; i++)
         {
-            SpawnEnemyPrefab(_enemyPrefab);
+            // 무한 모드는 전체 화면 너비를 사용하도록 설정 (width = _screenHalfWidth * 2)
+            SpawnEnemyAtRandomX(_enemyPrefab, _screenHalfWidth * 2f);
         }
-    }
-
-    /// <summary>
-    /// 실제 적 프리팹을 화면에 생성하는 공통 로직입니다.
-    /// </summary>
-    private void SpawnEnemyPrefab(GameObject prefab)
-    {
-        if (prefab == null) return;
-
-        float randomX = Random.Range(-_screenHalfWidth + 0.5f, _screenHalfWidth - 0.5f);
-        Vector3 spawnPos = new Vector3(randomX, 6f, 0f);
-
-        Instantiate(prefab, spawnPos, Quaternion.identity);
     }
 }
