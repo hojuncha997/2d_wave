@@ -17,10 +17,17 @@ MonoBehaviour:
   Batches:
   - DelayBeforeBatch: 0
     EnemyPrefab: {fileID: 5631120544058266564, guid: 6d0ef2562bf06414ea224d9509a8a04e, type: 3}
-    Count: 10
+    Count: 1
     SpawnInterval: 1
+    SpawnWidth: 5
+  - DelayBeforeBatch: 1
+    EnemyPrefab: {fileID: 5631120544058266564, guid: 8bea9b834a031ff4fac19789b5dd484d, type: 3}
+    Count: 1000
+    SpawnInterval: 0
+    SpawnWidth: 3
   - DelayBeforeBatch: 1
     EnemyPrefab: {fileID: 5631120544058266564, guid: a8ad56deb46c9964fa0996fac76be035, type: 3}
     Count: 1
     SpawnInterval: 1
+    SpawnWidth: 5
   WaitTimeAfterWave: 5

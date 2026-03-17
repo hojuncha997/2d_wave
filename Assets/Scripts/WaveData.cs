@@ -18,6 +18,9 @@ public class EnemyBatch
     
     [Tooltip("이 배치 내에서의 적 생성 간격 (초)")]
     public float SpawnInterval = 1.0f;
+
+    [Tooltip("적들이 생성되는 가로 범위 (0이면 한 점, 숫자가 클수록 널리 퍼짐)")]
+    public float SpawnWidth = 5.0f;
 }
 
 /// <summary>
