@@ -151,8 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56a04ae6dce208459c498a010774753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplosiveBullet
-  _damage: 2
-  _speed: 10
+  _speed: 5
   _lifeTime: 3
+  _useArcMovement: 1
+  _arcHeight: 5
+  _isHoming: 0
+  _landingMarkerPrefab: {fileID: 3980061930002824002, guid: 47bb58d88d6a246419f848293c381d92, type: 3}
+  _damage: 2
   _explosionRadius: 2
   _explosionEffectPrefab: {fileID: 0}

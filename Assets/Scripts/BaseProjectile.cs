@@ -18,11 +18,16 @@ public abstract class BaseProjectile : MonoBehaviour
     [Tooltip("체크하면 타겟을 끝까지 추적합니다. 해제하면 발사 시점의 위치로 날아갑니다.")]
     [SerializeField] protected bool _isHoming = true;
 
+    [Header("Visual Aids")]
+    [Tooltip("착탄 지점에 표시될 마커 프리팹입니다. (그림자나 조준점 등)")]
+    [SerializeField] protected GameObject _landingMarkerPrefab;
+
     protected Transform _target;
     protected Vector3 _startPosition;
     protected Vector3 _targetPosition;
     protected float _progress = 0f;
     protected Vector3 _lastDirection = Vector3.up;
+    protected GameObject _spawnedMarker;
 
     protected virtual void Start()
     {
@@ -33,8 +38,31 @@ public abstract class BaseProjectile : MonoBehaviour
             _targetPosition = _target.position;
             _lastDirection = (_targetPosition - _startPosition).normalized;
         }
+
+        // 착탄 마커 생성
+        SpawnLandingMarker();
         
         Destroy(gameObject, _lifeTime);
+    }
+
+    /// <summary>
+    /// 목표 지점에 착탄 마커를 소환하고 배치합니다.
+    /// </summary>
+    protected virtual void SpawnLandingMarker()
+    {
+        if (_landingMarkerPrefab != null)
+        {
+            _spawnedMarker = Instantiate(_landingMarkerPrefab, _targetPosition, Quaternion.identity);
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // 발사체가 파괴될 때 마커도 함께 제거
+        if (_spawnedMarker != null)
+        {
+            Destroy(_spawnedMarker);
+        }
     }
 
     /// <summary>

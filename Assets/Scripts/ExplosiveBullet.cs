@@ -22,9 +22,21 @@ public class ExplosiveBullet : BaseProjectile
         }
     }
 
+    protected override void SpawnLandingMarker()
+    {
+        base.SpawnLandingMarker();
+
+        // 마커가 생성되었다면 폭발 반경에 맞춰 크기 조절
+        if (_spawnedMarker != null)
+        {
+            float diameter = _explosionRadius * 2f;
+            _spawnedMarker.transform.localScale = new Vector3(diameter, diameter, 1f);
+        }
+    }
+
     protected override void OnDestinationReached()
     {
-        // 곡사포 모드일 때 목표 지점(바닥)에 도달하면 자동 폭발
+        // 곡사포 모드일 때 목표 지점에 도달하면 폭발
         Explode();
     }
 
