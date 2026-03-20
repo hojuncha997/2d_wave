@@ -15,6 +15,13 @@ public class BaseManager : MonoBehaviour
     private int _currentHp;
     private bool _isDestroyed = false;
 
+    // UI에서 접근할 수 있도록 속성 추가
+    public int CurrentHp => _currentHp;
+    public int MaxHp => _maxHp;
+
+    // 체력 변경 시 UI를 업데이트하기 위한 델리게이트/이벤트
+    public System.Action<int, int> OnHealthChanged;
+
     private void Awake()
     {
         if (Instance == null)
@@ -30,6 +37,7 @@ public class BaseManager : MonoBehaviour
     private void Start()
     {
         _currentHp = _maxHp;
+        OnHealthChanged?.Invoke(_currentHp, _maxHp);
         
         // 만약 에디터에서 슬롯을 연결하지 않았다면 자식 오브젝트에서 자동으로 찾아옵니다.
         if (_towerSlots.Count == 0)
@@ -45,10 +53,17 @@ public class BaseManager : MonoBehaviour
     /// </summary>
     public void TakeDamage(int damage)
     {
-        if (_isDestroyed) return;
+        Debug.Log($"[BaseManager] TakeDamage 진입! (파괴상태: {_isDestroyed}, 데미지: {damage})");
+        
+        if (_isDestroyed) 
+        {
+            Debug.Log("[BaseManager] 기지가 이미 파괴된 상태라 데미지를 무시합니다.");
+            return;
+        }
 
         _currentHp -= damage;
-        Debug.Log($"기지 피격! 남은 체력: {_currentHp}/{_maxHp}");
+        OnHealthChanged?.Invoke(_currentHp, _maxHp);
+        Debug.Log($"[BaseManager] 체력 감소 완료! 남은 체력: {_currentHp}/{_maxHp}");
 
         if (_currentHp <= 0)
         {
@@ -79,16 +94,33 @@ public class BaseManager : MonoBehaviour
     // 적이 기지(하단 라인)에 도달했을 때의 처리를 위한 충돌 감지
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        try 
         {
-            // 적이 기지에 도달하면 기지에 데미지를 입히고 적은 소멸됩니다.
-            TakeDamage(1);
+            if (other == null) return;
+            
+            Debug.Log($"[BaseManager] 충돌 감지: {other.name}, 태그: {other.tag}");
 
-            Enemy enemy = other.GetComponent<Enemy>();
-            if (enemy != null)
+            if (other.CompareTag("Enemy"))
             {
-                enemy.Die();
+                Debug.Log("[BaseManager] 적(Enemy) 확인됨! 데미지 처리 시작.");
+                TakeDamage(1);
+
+                // 적 제거
+                Enemy enemy = other.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.Die();
+                }
+                else
+                {
+                    Debug.LogWarning($"[BaseManager] {other.name}에 Enemy 컴포넌트가 없습니다. 파괴만 진행합니다.");
+                    Destroy(other.gameObject);
+                }
             }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[BaseManager] OnTriggerEnter2D 오류 발생: {e.Message}\n{e.StackTrace}");
         }
     }
 }

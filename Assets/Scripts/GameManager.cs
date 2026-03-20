@@ -9,15 +9,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("UI Elements")]
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _goldText; // 추가: 골드 UI
-    [SerializeField] private GameObject _gameOverUI;
-    [SerializeField] private TextMeshProUGUI _finalScoreText;
-
     public bool IsGameOver { get; private set; } = false;
     public int Score { get; private set; } = 0;
-    public int Gold { get; private set; } = 100; // 추가: 초기 자금 100G
+    public int Gold { get; private set; } = 100; // 초기 자금 100G
 
     private void Awake()
     {
@@ -33,10 +27,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // 게임 시작 시 UI 초기화
-        UpdateScoreUI();
-        UpdateGoldUI(); // 추가: 초기 골드 UI 업데이트
-        if (_gameOverUI != null) _gameOverUI.SetActive(false);
+        // 게임 시작 시 초기 UI 업데이트 (UIManager가 이미 존재한다고 가정)
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateScore(Score);
+            UIManager.Instance.UpdateGold(Gold);
+        }
     }
 
     /// <summary>
@@ -47,7 +43,7 @@ public class GameManager : MonoBehaviour
         if (IsGameOver) return;
 
         Score += amount;
-        UpdateScoreUI();
+        if (UIManager.Instance != null) UIManager.Instance.UpdateScore(Score);
         Debug.Log($"현재 점수: {Score}");
     }
 
@@ -59,7 +55,7 @@ public class GameManager : MonoBehaviour
         if (IsGameOver) return;
 
         Gold += amount;
-        UpdateGoldUI();
+        if (UIManager.Instance != null) UIManager.Instance.UpdateGold(Gold);
         Debug.Log($"골드 획득! 현재 골드: {Gold}");
     }
 
@@ -71,28 +67,12 @@ public class GameManager : MonoBehaviour
         if (Gold >= amount)
         {
             Gold -= amount;
-            UpdateGoldUI();
+            if (UIManager.Instance != null) UIManager.Instance.UpdateGold(Gold);
             return true;
         }
         
         Debug.LogWarning($"골드가 부족합니다! (필요: {amount}, 보유: {Gold})");
         return false;
-    }
-
-    private void UpdateScoreUI()
-    {
-        if (_scoreText != null)
-        {
-            _scoreText.text = $"Score: {Score}";
-        }
-    }
-
-    private void UpdateGoldUI()
-    {
-        if (_goldText != null)
-        {
-            _goldText.text = $"Gold: {Gold}G";
-        }
     }
 
     /// <summary>
@@ -105,15 +85,10 @@ public class GameManager : MonoBehaviour
         IsGameOver = true;
         Debug.Log($"게임 오버! 최종 점수: {Score}. 'R'키를 눌러 재시작하세요.");
 
-        // 게임 오버 UI 활성화
-        if (_gameOverUI != null)
+        // UIManager에게 게임 오버 표시 요청
+        if (UIManager.Instance != null)
         {
-            _gameOverUI.SetActive(true);
-        }
-
-        if (_finalScoreText != null)
-        {
-            _finalScoreText.text = $"Final Score: {Score}";
+            UIManager.Instance.ShowGameOver(Score);
         }
     }
 

@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _maxHp: 5
-  _moveSpeed: 2.5
+  _moveSpeed: 10
   _goldReward: 10
   _lifeTime: 10
 --- !u!61 &2926001737954070616
