@@ -27,6 +27,7 @@ public class BaseManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            _currentHp = _maxHp; // Awake에서 체력 초기화
         }
         else
         {
@@ -36,7 +37,6 @@ public class BaseManager : MonoBehaviour
 
     private void Start()
     {
-        _currentHp = _maxHp;
         OnHealthChanged?.Invoke(_currentHp, _maxHp);
         
         // 만약 에디터에서 슬롯을 연결하지 않았다면 자식 오브젝트에서 자동으로 찾아옵니다.

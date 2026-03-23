@@ -84,6 +84,11 @@ public class UIManager : MonoBehaviour
         {
             _hpSlider.maxValue = maxHp;
             _hpSlider.value = currentHp;
+            Debug.Log($"[UIManager] HP Bar Update: {currentHp}/{maxHp}");
+        }
+        else
+        {
+            Debug.LogWarning("[UIManager] HP Slider가 연결되지 않았거나 소실되었습니다!");
         }
     }
 
