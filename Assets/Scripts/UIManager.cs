@@ -18,6 +18,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _gameOverUI;
     [SerializeField] private TextMeshProUGUI _finalScoreText;
 
+    // v2.0 타워 선택 시스템 추가
+    public TowerData SelectedTower { get; private set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -90,6 +93,15 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogWarning("[UIManager] HP Slider가 연결되지 않았거나 소실되었습니다!");
         }
+    }
+
+    /// <summary>
+    /// 타워 선택 버튼을 클릭했을 때 호출됩니다. (v2.0)
+    /// </summary>
+    public void SelectTower(TowerData data)
+    {
+        SelectedTower = data;
+        Debug.Log($"[UIManager] 타워 선택됨: {(data != null ? data.towerName : "없음")}");
     }
 
     /// <summary>
